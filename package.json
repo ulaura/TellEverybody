@@ -1,0 +1,44 @@
+{
+  "name": "telleverybody",
+  "version": "1.0.0",
+  "description": "This web app allows users to view and leave comments on the latest news articles scraped from across the internet.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ulaura/TellEverybody.git"
+  },
+  "keywords": [
+    "tell",
+    "everybody",
+    "express",
+    "express-handlebars",
+    "mongoose",
+    "body-parser",
+    "cheerio",
+    "request",
+    "news",
+    "scrape",
+    "mongodb",
+    "mongo",
+    "comment",
+    "web",
+    "app"
+  ],
+  "author": "Laura Unaeze",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ulaura/TellEverybody/issues"
+  },
+  "homepage": "https://github.com/ulaura/TellEverybody#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.13.2",
+    "request": "^2.83.0"
+  }
+}
