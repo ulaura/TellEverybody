@@ -27,9 +27,9 @@ app.use(express.static("public"));
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
+// REMEMBER TO DELETE PASSWORD WHENEVER UPDATING SERVER.JS!!!
 mongoose.Promise = Promise;
-// to connect to a local Mongo DB with authorization enabled >> mongoose.connect("mongodb://USER:USERPASSWORD@URL/NAMEOFDATABASE?OPTION", {
-// to connect to a local Mongo DB w/o authorization enabled >> mongoose.connect("mongodb://URL/NAMEOFDATABASE", {
+mongoose.connect("mongodb://USER:USERPASSWORD@URL/NAMEOFDATABASE?OPTION", {
   useMongoClient: true
 });
 
