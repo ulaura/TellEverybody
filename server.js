@@ -29,7 +29,7 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 // REMEMBER TO DELETE PASSWORD WHENEVER UPDATING SERVER.JS!!!
 mongoose.Promise = Promise;
-mongoose.connect(, {
+mongoose.connect("username and password", {
   useMongoClient: true
 });
 
@@ -49,36 +49,38 @@ app.get("/", function(req, res) {
 // The app will scrape as soon as a user lands on the site
 app.get("/scrape", function(req, res) {
   // Make a request for the news section of ycombinator
-  request("https://www.nationalgeographic.com/latest-stories/", function(error, response, html) {
+  request("https://news.ycombinator.com/", function(error, response, html) {
     // Load the html body from request into cheerio
     var $ = cheerio.load(html);
     // For each element with a "title" class
-    $("div").each(function(i, element) {
+    $(".title").each(function(i, element) {
       // Save the text and href of each link enclosed in the current element
-      var headline = $(element).children("span").text();
-      var summary  = $(element).children("div span").text();
+      var headline = $(element).children("a").text();
+      var summary  = $(element).children("a").text();
       var url      = $(element).children("a").attr("href");
 
-      var resultObj = {
-        headline: headline,
-        summary: summary,
-        url: url
-      }
 
-      // Insert the data in the scrapedData db
-      db.Article.create(resultObj,
+      // If the found element has a headline, summary, and url
+      if (headline && summary && url) {
+        // Insert the data in the scrapedData db
+        db.Article.create({
+          headline: headline,
+          summary: summary,
+          url: url
+        },
         function(err, inserted) {
           if (err) {
             // Log the error if one is encountered during the query
-            console.log(err);
+            console.log("This here's an error: ",err);
           }
           else {
             // Otherwise, log the inserted data
             console.log(inserted);
           }
         });
-      });
+      }  
     });
+  });
 
 
   // Send a "Scrape Complete" message to the browser
