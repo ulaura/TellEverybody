@@ -42,11 +42,12 @@ app.set("view engine", "handlebars");
 // =========== The Routes ===========
 
 // GET requests
+
 app.get("/", function(req, res) {
 	res.render("index");
 });
 
-// The app will scrape as soon as a user lands on the site
+// GET route to perform a scrape
 app.get("/scrape", function(req, res) {
   // Make a request for the news section of ycombinator
   request("https://www.npr.org/sections/national/", function(error, response, html) {
@@ -63,9 +64,9 @@ app.get("/scrape", function(req, res) {
       if (headline && summary && url) {
         // Insert the data in the Article model
         db.Article.create({
-          headline: headline,
-          summary: summary,
-          url: url
+          headline:  headline,
+          summary:   summary,
+          url:       url
         },
         function(err, inserted) {
           if (err) {
@@ -81,12 +82,38 @@ app.get("/scrape", function(req, res) {
     });
   });
 
-
   // Send a "Scrape Complete" message to the browser
   res.send("Scrape Complete");
 });
 
+// GET route for grabbing all the Articles in the db
+app.get("/articles", function(req,res) {
+  db.Article.find({})
+    .then(function(dbArticle) {
+      // if the find query is successful
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // if an error occured, show it to the client
+      res.json("You have errors: ", err);
+    });
+});
 
+// GET route for getting a specific article by id.
+// It will populate along with its associated note
+app.get("/articles/:id", function(req, res) {
+  db.Article.findOne({ _id: req.params.id })
+  // show all comments associated with this article
+  .populate("comment")
+  .then(function(dbArticle) {
+    // if this findOne query is a success
+    res.json(dbArticle);
+  })
+  .catch(function(err) {
+    // if an error occured, show it to the client
+    res.json("You have errors: ", err);
+  });
+});
 
 // The listener. Starts the server. 
 app.listen(PORT, function() {
