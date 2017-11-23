@@ -29,7 +29,7 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 // REMEMBER TO DELETE PASSWORD WHENEVER UPDATING SERVER.JS!!!
 mongoose.Promise = Promise;
-mongoose.connect("username and password", {
+mongoose.connect(" ", {
   useMongoClient: true
 });
 
@@ -49,20 +49,19 @@ app.get("/", function(req, res) {
 // The app will scrape as soon as a user lands on the site
 app.get("/scrape", function(req, res) {
   // Make a request for the news section of ycombinator
-  request("https://news.ycombinator.com/", function(error, response, html) {
+  request("https://www.npr.org/sections/national/", function(error, response, html) {
     // Load the html body from request into cheerio
     var $ = cheerio.load(html);
-    // For each element with a "title" class
-    $(".title").each(function(i, element) {
-      // Save the text and href of each link enclosed in the current element
-      var headline = $(element).children("a").text();
-      var summary  = $(element).children("a").text();
-      var url      = $(element).children("a").attr("href");
-
+    // For each element with a ".item-info" class
+    $(".item-info").each(function(i, element) {
+      // Save the headline, summary, and url of each link enclosed in the current element
+      var headline = $(element).children("h2").text();
+      var summary  = $(element).children("p").text();
+      var url      = $(element).children("h2").children("a").attr("href");
 
       // If the found element has a headline, summary, and url
       if (headline && summary && url) {
-        // Insert the data in the scrapedData db
+        // Insert the data in the Article model
         db.Article.create({
           headline: headline,
           summary: summary,
