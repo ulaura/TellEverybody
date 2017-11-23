@@ -29,7 +29,7 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 // REMEMBER TO DELETE PASSWORD WHENEVER UPDATING SERVER.JS!!!
 mongoose.Promise = Promise;
-mongoose.connect(" ", {
+mongoose.connect("mongodb://USERNAME:PASSWORD@URL/TellEverybody?OPTION", {
   useMongoClient: true
 });
 
@@ -44,7 +44,21 @@ app.set("view engine", "handlebars");
 // GET requests
 
 app.get("/", function(req, res) {
-	res.render("index");
+  // A find query will be run as soon as the user lands on the homepage
+  db.Article.find({})
+    .then(function(data) {
+      // All data found from the query will be put in an object value with
+      // a key matching the db table, and then passed through Handlebars
+      var targetObj = {
+        articles: data
+      }
+
+      res.render("index", targetObj)
+    })
+	  .catch(function(err) {
+      // If there's an error, show it to the client
+      res.json("You have errors: ", err);
+    })
 });
 
 // GET route to perform a scrape
@@ -87,6 +101,7 @@ app.get("/scrape", function(req, res) {
 });
 
 // GET route for grabbing all the Articles in the db
+// Shows results as a json object
 app.get("/articles", function(req,res) {
   db.Article.find({})
     .then(function(dbArticle) {
@@ -100,7 +115,8 @@ app.get("/articles", function(req,res) {
 });
 
 // GET route for getting a specific article by id.
-// It will populate along with its associated note
+// It will populate along with its associated note.
+// Shows results as a json object
 app.get("/articles/:id", function(req, res) {
   db.Article.findOne({ _id: req.params.id })
   // show all comments associated with this article
