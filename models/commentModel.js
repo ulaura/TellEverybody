@@ -18,10 +18,6 @@ var CommentSchema = new Schema ({
 		type: String,
 		required: true
 	},
-	articleAssociation: {
-		type: Schema.Types.ObjectId,
-		ref: "Article"
-	},
 	userAssociation: {
 		type: Schema.Types.ObjectId,
 		ref: "User"
