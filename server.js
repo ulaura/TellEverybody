@@ -29,7 +29,7 @@ app.use(express.static("public"));
 // Connect to the Mongo DB
 // REMEMBER TO DELETE PASSWORD WHENEVER UPDATING SERVER.JS!!!
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://USERNAME:PASSWORD@URL/TellEverybody?OPTION", {
+mongoose.connect("", {
   useMongoClient: true
 });
 
@@ -130,6 +130,28 @@ app.get("/articles/:id", function(req, res) {
     res.json("You have errors: ", err);
   });
 });
+
+// POST requests
+
+// POST route for saving or updating comments associated
+// with an article
+app.post("/articles/:id", function(req, res) {
+  db.Comment.create(req.body)
+  .then(function(dbComment) {
+    // If a comment was successfully created, find the Article
+    // that matches the _id and send it the updated associated Comment
+     return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+  })
+  .then(function(dbArticle) {
+    // If the Article was successfully updated, send it
+    // back to the client
+    res.json(dbArticle)
+  })
+  .catch(function(err) {
+    // If there was an error, send it to the client
+    res.json(err);
+  })
+})
 
 // The listener. Starts the server. 
 app.listen(PORT, function() {
