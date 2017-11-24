@@ -1,3 +1,7 @@
 .article {
 	border: 3px solid black;
 }
+
+.comment {
+	border: 3px solid orange;
+}
