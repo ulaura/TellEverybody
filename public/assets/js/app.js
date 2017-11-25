@@ -39,7 +39,7 @@ $(document).on("click","#comment-link", function() {
 			// a textarea for the user to type in their comment 
 			+ "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
       + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
-      + "<button data-id='" + data._id + "' id='savecomment'>Save Comment</button></form>");
+      + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
 
 
 

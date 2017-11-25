@@ -6,6 +6,10 @@
 	padding-left: 0;
 }
 
+.read {
+	border: 3px solid red;
+}
+
 .comment {
 	border: 3px solid orange;
 }
