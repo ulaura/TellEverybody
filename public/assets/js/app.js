@@ -5,19 +5,18 @@
 // index.handlebars
 $.getJSON("/articles", function(data) {
 	for (var i = 0; i < data.length; i++) {
-		// $(".article").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p>");
-		
-		$(".article").append("<div class='card' data-id='" + data[i]._id + "'>"
-		+ " <div class='card-body'> <h4 class='card-title'>" + data[i].headline + "</h4>"
+		$(".article").append("<div class='card'>"
+		+ "<div class='card-body'> <h4 class='card-title'>" + data[i].headline + "</h4>"
 		+ "<p class='card-text'>" + data[i].summary + "</p>"
-		+ "<a href='" + data[i].url +"' class='card-link'>Read the article</a></div></div>");
+		+ "<a href='" + data[i].url +"' class='card-link'>Read the article</a>" 
+		+ "<a href='#' class='card-link' id='comment-link' data-id='" + data[i]._id + "'>TELL EVERYBODY WHAT YOU THINK</a></div></div>");
 	}
 
 });
 
 
-// When the user clicks any p tag
-$(document).on("click","p", function() {
+// When the user clicks the TELL EVERYBODY WHAT YOU THINK link
+$(document).on("click","#comment-link", function() {
 	// make sure the comment box starts off empty
 	$(".comment").empty();
 
