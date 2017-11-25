@@ -16,6 +16,7 @@ $.getJSON("/articles", function(data) {
 
 
 // When the user clicks the TELL EVERYBODY WHAT YOU THINK link
+// the comment box will pop up
 $(document).on("click","#comment-link", function() {
 	// make sure the comment box starts off empty
 	$(".comment").empty();
