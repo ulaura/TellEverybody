@@ -8,7 +8,7 @@ $.getJSON("/articles", function(data) {
 		$(".article").append("<div class='card'>"
 		+ "<div class='card-body'> <h4 class='card-title'>" + data[i].headline + "</h4>"
 		+ "<p class='card-text'>" + data[i].summary + "</p>"
-		+ "<a href='" + data[i].url +"' class='card-link'>Read the article</a>" 
+		+ "<a href='" + data[i].url +"' target='_blank' class='card-link'>Read the article</a>" 
 		+ "<a href='#' class='card-link' id='comment-link' data-id='" + data[i]._id + "'>TELL EVERYBODY WHAT YOU THINK</a></div></div>");
 	}
 
@@ -29,7 +29,17 @@ $(document).on("click","#comment-link", function() {
     // With that done, add the note information to the page
     .done(function(data) {
       console.log(data);
-      // The title of the article
+      // The headline for the article
+      $(".comment").append("<h2>" + data.headline + "</h2>");
+
+      // An input for the user to add a title to their comment
+      $(".comment").append("<form><div class='form-group'><input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'>" 
+      + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea>"
+      + "<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+
+      // A textarea for the user to input their comment
+     
+      /*
       $(".comment").append("<h2>" + data.headline + "</h2>");
       // An input to enter a new title
       $(".comment").append("<input id='titleinput' name='title' >");
@@ -37,6 +47,7 @@ $(document).on("click","#comment-link", function() {
       $(".comment").append("<textarea id='bodyinput' name='body'></textarea>");
       // A button to submit a new note, with the id of the article saved to it
       $(".comment").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+			*/
 
       // If there's a note in the article
       if (data.comment) {
@@ -48,8 +59,9 @@ $(document).on("click","#comment-link", function() {
     });
 });
 
+
 // When you click the savenote button
-$(document).on("click", "#savenote", function() {
+$(document).on("click", "#savecomment", function() {
   // Grab the id associated with the article from the submit button
   var articleId = $(this).attr("data-id");
 
