@@ -1,12 +1,18 @@
 // File for front end JS
 
 // grabbing the articles from the db as a JSON
-// and displaying them in a div container on
+// and displaying them in a bootstrap card on
 // index.handlebars
 $.getJSON("/articles", function(data) {
 	for (var i = 0; i < data.length; i++) {
-		$(".article").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p>");
+		// $(".article").append("<p data-id='" + data[i]._id + "'>" + data[i].headline + "<br />" + data[i].summary + "<br />" + data[i].url + "</p>");
+		
+		$(".article").append("<div class='card' data-id='" + data[i]._id + "'>"
+		+ " <div class='card-body'> <h4 class='card-title'>" + data[i].headline + "</h4>"
+		+ "<p class='card-text'>" + data[i].summary + "</p>"
+		+ "<a href='" + data[i].url +"' class='card-link'>Read the article</a></div></div>");
 	}
+
 });
 
 
