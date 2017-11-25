@@ -33,21 +33,14 @@ $(document).on("click","#comment-link", function() {
       $(".comment").append("<h2>" + data.headline + "</h2>");
 
       // An input for the user to add a title to their comment
-      $(".comment").append("<form><div class='form-group'><input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'>" 
-      + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea>"
-      + "<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+      $(".comment").append("<form><div class='form-group'><label for='titleinput'>Add a Title to Your Comment: </label>"
+      + "<input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'></div>" 
+			// a textarea for the user to type in their comment 
+			+ "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
+      + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
+      + "<button data-id='" + data._id + "' id='savecomment'>Save Comment</button></form>");
 
-      // A textarea for the user to input their comment
-     
-      /*
-      $(".comment").append("<h2>" + data.headline + "</h2>");
-      // An input to enter a new title
-      $(".comment").append("<input id='titleinput' name='title' >");
-      // A textarea to add a new note body
-      $(".comment").append("<textarea id='bodyinput' name='body'></textarea>");
-      // A button to submit a new note, with the id of the article saved to it
-      $(".comment").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-			*/
+
 
       // If there's a note in the article
       if (data.comment) {
