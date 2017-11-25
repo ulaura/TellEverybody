@@ -1,8 +1,18 @@
 .article {
 	border: 3px solid black;
+	height: 500px;
+	overflow-y: scroll;
+	padding-right: 0;
+	padding-left: 0;
 }
+
+
 
 .comment {
 	border: 3px solid orange;
+}
+
+.card {
+	width: 100%;
 }
 
