@@ -9,7 +9,8 @@ $.getJSON("/articles", function(data) {
 		+ "<div class='card-body'> <h4 class='card-title'>" + data[i].headline + "</h4>"
 		+ "<p class='card-text'>" + data[i].summary + "</p>"
 		+ "<a href='" + data[i].url +"' target='_blank' class='card-link'>Read the article</a>" 
-		+ "<a href='#' class='card-link' id='comment-link' data-id='" + data[i]._id + "'>TELL EVERYBODY WHAT YOU THINK</a></div></div>");
+    + "<a href='#' class='card-link' id='read-comment' data-id='" + data[i]._id + "'>Read Comments</a>"
+		+ "<br><a href='#' class='card-link' id='comment-link' data-id='" + data[i]._id + "'>TELL EVERYBODY WHAT YOU THINK</a></div></div>");
 	}
 
 });
@@ -41,20 +42,43 @@ $(document).on("click","#comment-link", function() {
       + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
       + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
 
-
-
-      // If there's a note in the article
-      if (data.comment) {
-        // Place the title of the note in the title input
-        $("#titleinput").val(data.comment.commentTitle);
-        // Place the body of the note in the body textarea
-        $("#bodyinput").val(data.comment.commentBody);
-      }
     });
 });
 
 
-// When you click the savenote button
+// When the user clicks on the Read Comments link
+// a box with stored comments will pop up
+$(document).on("click", "#read-comment", function() {
+
+  $(".read").empty();
+
+  var articleId = $(this).attr("data-id");
+
+  $.ajax({
+    method: "GET",
+    url: "/articles/" + articleId
+  })
+    .done(function(data) {
+      console.log(data);
+
+      $(".read").append("<h2>" + data.headline + "</h2>");
+
+      if (data.comment.length > 0) {
+        for (var i = 0; i < data.comment.length; i++) {
+          $(".read").append("<div class='card'>"
+          + "<div class='card-body'> <h4 class='card-title'>" + data.comment[i].commentTitle + "</h4>"
+          + "<p class='card-text'>" + data.comment[i].commentBody + "</p>"
+          + "<hr><p>" + data.comment[i].userAssociation + "</p></div></div>");
+        }
+      }
+      else {
+        $(".read").append("<p>No one has said anything about this article yet!</p>");
+      }
+    })
+})
+
+
+// When you click the savecomment button
 $(document).on("click", "#savecomment", function() {
   // Grab the id associated with the article from the submit button
   var articleId = $(this).attr("data-id");

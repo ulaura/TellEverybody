@@ -140,7 +140,7 @@ app.post("/articles/:id", function(req, res) {
   .then(function(dbComment) {
     // If a comment was successfully created, find the Article
     // that matches the _id and send it the updated associated Comment
-     return db.Article.findOneAndUpdate({ _id: req.params.id }, { comment: dbComment._id }, { new: true });
+     return db.Article.findOneAndUpdate({ _id: req.params.id }, { $push: { comment: dbComment._id } }, { new: true });
   })
   .then(function(dbArticle) {
     // If the Article was successfully updated, send it
