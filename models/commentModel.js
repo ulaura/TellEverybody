@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 
 // comment title
 // comment body
-// article association - references articleModel
+// comment time
 // user who wrote it - references userModel
 var CommentSchema = new Schema ({
 	commentTitle: {
@@ -17,6 +17,10 @@ var CommentSchema = new Schema ({
 	commentBody: {
 		type: String,
 		required: true
+	},
+	commentTime: {
+		type: Date,
+		default: Date.now
 	},
 	userAssociation: {
 		type: Schema.Types.ObjectId,

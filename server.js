@@ -139,7 +139,9 @@ app.post("/articles/:id", function(req, res) {
   db.Comment.create(req.body)
   .then(function(dbComment) {
     // If a comment was successfully created, find the Article
-    // that matches the _id and send it the updated associated Comment
+    // that matches the _id and send it the updated associated Comment.
+    // The push-each-position 0 will push a new comment into index 0 of the comment array
+    // in the Article model.
      return db.Article.findOneAndUpdate(
       { _id: req.params.id }, 
       { $push: { comment: 
@@ -155,7 +157,18 @@ app.post("/articles/:id", function(req, res) {
     // If there was an error, send it to the client
     res.json(err);
   })
-})
+});
+
+// POST route to create a new user
+app.post("/newUser", function(req, res) {
+  db.User.create(req.body)
+  .then(function(dbUser) {
+    res.json(dbUser);
+  })
+  .catch(function(err) {
+    res.json(err);
+  })
+});
 
 // The listener. Starts the server. 
 app.listen(PORT, function() {

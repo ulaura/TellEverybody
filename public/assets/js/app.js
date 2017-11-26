@@ -16,33 +16,48 @@ $.getJSON("/articles", function(data) {
 });
 
 
+
 // When the user clicks the TELL EVERYBODY WHAT YOU THINK link
 // the comment box will pop up
 $(document).on("click","#comment-link", function() {
 	// make sure the comment box starts off empty
 	$(".comment").empty();
 
-	var articleId = $(this).attr("data-id");
+  // This handles if a user is signed in or not.
+  // Users must be signed in to comment.
+  var site = window.location.search;
+  var userId;
 
-  $.ajax({
-    method: "GET",
-    url: "/articles/" + articleId
-  })
-    // With that done, add the note information to the page
-    .done(function(data) {
-      console.log(data);
-      // The headline for the article
-      $(".comment").append("<h2>" + data.headline + "</h2>");
+  if (site.indexOf("?user_id=") === -1) {
+    $(".comment").append("<h4>You must log in before you can comment!</h4>");
+    $(".comment").append("<button class='create-user'>Create User</button>" +
+      "<button class='login'>Log In</button>");
+  }
 
-      // An input for the user to add a title to their comment
-      $(".comment").append("<form><div class='form-group'><label for='titleinput'>Add a Title to Your Comment: </label>"
-      + "<input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'></div>" 
-			// a textarea for the user to type in their comment 
-			+ "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
-      + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
-      + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
+  else {
 
-    });
+  	var articleId = $(this).attr("data-id");
+
+    $.ajax({
+      method: "GET",
+      url: "/articles/" + articleId
+    })
+      // With that done, add the note information to the page
+      .done(function(data) {
+        console.log(data);
+        // The headline for the article
+        $(".comment").append("<h2>" + data.headline + "</h2>");
+
+        // An input for the user to add a title to their comment
+        $(".comment").append("<form><div class='form-group'><label for='titleinput'>Add a Title to Your Comment: </label>"
+        + "<input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'></div>" 
+  			// a textarea for the user to type in their comment 
+  			+ "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
+        + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
+        + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
+
+      });
+  }
 });
 
 

@@ -8,6 +8,7 @@ var Schema = mongoose.Schema;
 // headline
 // summary
 // url
+// associated user comments - references commentModel
 var ArticleSchema = new Schema ({
 	headline: {
 		type: String,
