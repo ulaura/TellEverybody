@@ -15,8 +15,6 @@ $.getJSON("/articles", function(data) {
 
 });
 
-
-
 // When the user clicks the TELL EVERYBODY WHAT YOU THINK link
 // the comment box will pop up
 $(document).on("click","#comment-link", function() {
@@ -59,6 +57,20 @@ $(document).on("click","#comment-link", function() {
       });
   }
 });
+
+// When a user clicks on the Create User button
+$(document).on("click", ".create-user", function() {
+  // hide the Create User Button
+  $(".create-user").hide();
+
+  // add new user form
+  // Username input box
+  $(".comment").append("<form><div class='form-group'><label for='username'>Username</label>"
+  +"<input type='text' class='form-control' id='username' aria-describedby='usernameHelp' placeholder='Enter username'></div>"
+  // Email input box
+  +"<div class='form-group'><label for='user-email'>Email address</label>"
+  +"<input type='email' class='form-control' id='user-email' aria-describedby='emailHelp' placeholder='Enter email'></div></form>");
+})
 
 
 // When the user clicks on the Read Comments link
