@@ -115,7 +115,7 @@ app.get("/articles", function(req,res) {
 });
 
 // GET route for getting a specific article by id.
-// It will populate along with its associated note.
+// It will populate along with its associated comment.
 // Shows results as a json object
 app.get("/articles/:id", function(req, res) {
   db.Article.findOne({ _id: req.params.id })
@@ -130,6 +130,24 @@ app.get("/articles/:id", function(req, res) {
     res.json("You have errors: ", err);
   });
 });
+
+// GET route to show all comments as a json object
+app.get("/comments", function(req,res) {
+  db.Comment.find({})
+    .then(function(dbComment) {
+      // if the find query is successful
+      res.json(dbComment);
+    })
+    .catch(function(err) {
+      // if an error occured, show it to the client
+      res.json("You have errors: ", err);
+    });
+});
+
+
+// GET route to show a specific comment by id.
+// It will populate along with its associated User
+// Shows results as a json object
 
 // POST requests
 

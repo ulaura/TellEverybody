@@ -26,6 +26,7 @@ $(document).on("click","#comment-link", function() {
   var site = window.location.search;
   var userId;
 
+  
   if (site.indexOf("?user_id=") === -1) {
     $(".comment").append("<h4>You must log in before you can comment!</h4>");
     $(".comment").append("<button class='create-user'>Create User</button>" +
