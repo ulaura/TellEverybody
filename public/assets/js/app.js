@@ -70,7 +70,48 @@ $(document).on("click", ".create-user", function() {
   +"<input type='text' class='form-control' id='username' aria-describedby='usernameHelp' placeholder='Enter username'></div>"
   // Email input box
   +"<div class='form-group'><label for='user-email'>Email address</label>"
-  +"<input type='email' class='form-control' id='user-email' aria-describedby='emailHelp' placeholder='Enter email'></div></form>");
+  +"<input type='email' class='form-control' id='user-email' aria-describedby='emailHelp' placeholder='Enter email'></div>"
+  // Submit Button
+  + "<button type='submit' class='submit'>Submit</button><form>");
+});
+
+// When a user clicks the submit button in the Create User form
+$("form").on("submit", function(event) {
+  event.preventDefault();
+
+  $.ajax({
+    method: "POST",
+    url: "/newUser",
+    data: {
+      username: $("#username").val().trim(),
+      email:    $("#user-email").val().trim()
+    }
+  })
+  .done(function(data) {
+    console.log(data);
+
+    // Add the new User ObjectID to url
+    window.location.href + "/" + data._id;
+
+    // Empty the comment div
+    $(".comment").empty()
+
+    // Tell user sign up was succesful
+    $(".comment").append("<p>Sign up succesful!!</p>");
+
+    // Add in comment form
+    $(".comment").append("<h2>" + data.headline + "</h2>");
+
+    // An input for the user to add a title to their comment
+    $(".comment").append("<form><div class='form-group'><label for='titleinput'>Add a Title to Your Comment: </label>"
+    + "<input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'></div>" 
+    // a textarea for the user to type in their comment 
+    + "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
+    + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
+    + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
+
+
+  })
 })
 
 
