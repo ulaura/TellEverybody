@@ -66,17 +66,17 @@ $(document).on("click", ".create-user", function() {
 
   // add new user form
   // Username input box
-  $(".comment").append("<form><div class='form-group'><label for='username'>Username</label>"
+  $(".comment").append("<form method='POST' action='/newUser'><div class='form-group'><label for='username'>Username</label>"
   +"<input type='text' class='form-control' id='username' aria-describedby='usernameHelp' placeholder='Enter username'></div>"
   // Email input box
-  +"<div class='form-group'><label for='user-email'>Email address</label>"
-  +"<input type='email' class='form-control' id='user-email' aria-describedby='emailHelp' placeholder='Enter email'></div>"
+  +"<div class='form-group'><label for='email'>Email address</label>"
+  +"<input type='email' class='form-control' id='email' aria-describedby='emailHelp' placeholder='Enter email'></div>"
   // Submit Button
   + "<button type='submit' class='submit'>Submit</button><form>");
 });
 
 // When a user clicks the submit button in the Create User form
-$("form").on("submit", function(event) {
+$(document).on("submit", function(event) {
   event.preventDefault();
 
   $.ajax({
@@ -84,7 +84,7 @@ $("form").on("submit", function(event) {
     url: "/newUser",
     data: {
       username: $("#username").val().trim(),
-      email:    $("#user-email").val().trim()
+      email:    $("#email").val().trim()
     }
   })
   .done(function(data) {
@@ -95,7 +95,7 @@ $("form").on("submit", function(event) {
 
     // Empty the comment div
     $(".comment").empty()
-
+    
     // Tell user sign up was succesful
     $(".comment").append("<p>Sign up succesful!!</p>");
 
@@ -109,8 +109,6 @@ $("form").on("submit", function(event) {
     + "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
     + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
     + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
-
-
   })
 })
 

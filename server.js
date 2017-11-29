@@ -179,16 +179,24 @@ app.post("/articles/:id", function(req, res) {
 
 // POST route to create a new user
 app.post("/newUser", function(req, res) {
-  db.User.create(req.body)
-  .then(function(dbUser) {
-    res.json(dbUser);
-  })
-  .catch(function(err) {
-    res.json(err);
-  })
+  db.User.create({
+    username: req.body.username,
+    email:    req.body.email
+  }, 
+  function(err, inserted) {
+    if (err) {
+      // Log the error if one is encountered during the query
+      console.log("This here's an error: ",err);
+    }
+    else {
+      // Otherwise, log the inserted data
+      console.log(inserted);
+      res.json(inserted);
+    }
+  });
 });
 
 // The listener. Starts the server. 
 app.listen(PORT, function() {
-  console.log(`App listening on PORT: ${PORT}!`);
+  console.log(`Welcome to Port ${PORT}!`);
 });
