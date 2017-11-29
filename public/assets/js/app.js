@@ -26,11 +26,15 @@ $(document).on("click","#comment-link", function() {
   var site = window.location.search;
   var userId;
 
+  // Passing around the ID for each article. 
+  // Originally comes from data-id in #comment-link.
+  // Using this to help populate correct article in comment box after sign-up or login
+  var passId = $(this).attr("data-id");
   
   if (site.indexOf("?user_id=") === -1) {
     $(".comment").append("<h4>You must log in before you can comment!</h4>");
-    $(".comment").append("<button class='create-user'>Create User</button>" +
-      "<button class='login'>Log In</button>");
+    $(".comment").append("<button class='create-user' data-id='" + passId + "'>Create User</button>" +
+      "<button class='login' data-id='" + passId + "'>Log In</button>");
   }
 
   else {
@@ -64,6 +68,11 @@ $(document).on("click", ".create-user", function() {
   // hide the Create User Button
   $(".create-user").hide();
 
+  // Passing around the ID for each article. 
+  // Originally comes from data-id in #comment-link.
+  // Using this to help populate correct article in comment box after sign-up or login
+  var passId = $(this).attr("data-id");
+
   // add new user form
   // Username input box
   $(".comment").append("<form method='POST' action='/newUser'><div class='form-group'><label for='username'>Username</label>"
@@ -72,12 +81,19 @@ $(document).on("click", ".create-user", function() {
   +"<div class='form-group'><label for='email'>Email address</label>"
   +"<input type='email' class='form-control' id='email' aria-describedby='emailHelp' placeholder='Enter email'></div>"
   // Submit Button
-  + "<button type='submit' class='submit'>Submit</button><form>");
+  + "<button type='submit' class='submit' data-id='" + passId + "'>Submit</button><form>");
 });
 
 // When a user clicks the submit button in the Create User form
-$(document).on("submit", function(event) {
+// Note: In order to grab data-id from submit button, the format here
+// must be .on("click", ".submit") isntead of .on("submit")
+$(document).on("click", ".submit", function(event) {
   event.preventDefault();
+
+  // Passing around the ID for each article. 
+  // Originally comes from data-id in #comment-link.
+  // Using this to help populate correct article in comment box after sign-up or login
+  var passId = $(this).attr("data-id");
 
   $.ajax({
     method: "POST",
@@ -99,16 +115,27 @@ $(document).on("submit", function(event) {
     // Tell user sign up was succesful
     $(".comment").append("<p>Sign up succesful!!</p>");
 
-    // Add in comment form
-    $(".comment").append("<h2>" + data.headline + "</h2>");
+    // Making a second AJAX call to bring in comment form after sign-up/login 
+    $.ajax({
+      method: "GET",
+      url: "/articles/" + passId
+    })
+      // With that done, add the note information to the page
+      .done(function(data) {
+        console.log(data);
+        // The headline for the article 
+        $(".comment").append("<h2>" + data.headline + "</h2>");
 
-    // An input for the user to add a title to their comment
-    $(".comment").append("<form><div class='form-group'><label for='titleinput'>Add a Title to Your Comment: </label>"
-    + "<input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'></div>" 
-    // a textarea for the user to type in their comment 
-    + "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
-    + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
-    + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
+        // An input for the user to add a title to their comment
+        $(".comment").append("<form><div class='form-group'><label for='titleinput'>Add a Title to Your Comment: </label>"
+        + "<input class='form-control' id='titleinput' type='text' placeholder='Add a title to your comment'></div>" 
+        // a textarea for the user to type in their comment 
+        + "<div class='form-group'><label for='bodyinput'>Tell everybody what you think here: </label>"    
+        + "<textarea class='form-control' id='bodyinput' rows='5' placeholder='Type your comment here'></textarea><div>"
+        + "<button data-id='" + data._id + "' id='savecomment'>TELL EVERYBODY</button></form>");
+
+      });
+    
   })
 })
 

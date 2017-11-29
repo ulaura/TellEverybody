@@ -127,7 +127,7 @@ app.get("/articles/:id", function(req, res) {
   })
   .catch(function(err) {
     // if an error occured, show it to the client
-    res.json("You have errors: ", err);
+    res.status(404).json("You have errors: ");
   });
 });
 
@@ -140,7 +140,7 @@ app.get("/comments", function(req,res) {
     })
     .catch(function(err) {
       // if an error occured, show it to the client
-      res.json("You have errors: ", err);
+      res.status(404).json("You have errors: ");
     });
 });
 
