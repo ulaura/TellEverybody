@@ -4,15 +4,27 @@
 // and displaying them in a bootstrap card on
 // index.handlebars
 $.getJSON("/articles", function(data) {
-	for (var i = 0; i < data.length; i++) {
-		$(".article").append("<div class='card'>"
-		+ "<div class='card-body'> <h4 class='card-title'>" + data[i].headline + "</h4>"
-		+ "<p class='card-text'>" + data[i].summary + "</p>"
-		+ "<a href='" + data[i].url +"' target='_blank' class='card-link'>Read the article</a>" 
-    + "<a href='#' class='card-link' id='read-comment' data-id='" + data[i]._id + "'>Read Comments</a>"
-		+ "<br><a href='#' class='card-link' id='comment-link' data-id='" + data[i]._id + "'>TELL EVERYBODY WHAT YOU THINK</a></div></div>");
-	}
 
+  // counter to help control when jQuery adds a scrollbar to the .article div
+  var helperCounter = 0; 
+
+	for (var i = 0; i < data.length; i++) {
+  	$(".article").append("<div class='card'>"
+  	+ "<div class='card-body'> <h4 class='card-title'>" + data[i].headline + "</h4>"
+  	+ "<p class='card-text'>" + data[i].summary + "</p>"
+  	+ "<a href='" + data[i].url +"' target='_blank' class='card-link'>Read the article</a>" 
+    + "<a href='#' class='card-link' id='read-comment' data-id='" + data[i]._id + "'>Read Comments</a>"
+  	+ "<br><a href='#' class='card-link' id='comment-link' data-id='" + data[i]._id + "'>TELL EVERYBODY WHAT YOU THINK</a></div></div>");
+	
+    // each iteration will add 1 to the counter
+    helperCounter++;
+  }
+
+  // scroll bar will appear in .article div after articles have been scraped
+  // and helperCounter becomes greater than 1
+  if (helperCounter > 0) {
+    $(".article").css({"overflow-y": "scroll"});
+  }
 });
 
 // When the user clicks the TELL EVERYBODY WHAT YOU THINK link
