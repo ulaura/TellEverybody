@@ -8,18 +8,18 @@
 	font-size: 30px;
 }
 .article {
-	border: 3px solid black;
-	height: 500px;
+	/*border: 3px solid black;*/
+	/*height: 500px;*/
 	padding-right: 0;
 	padding-left: 0;
 }
 
 .read {
-	border: 3px solid red;
+	/*border: 3px solid red;*/
 }
 
 .comment {
-	border: 3px solid orange;
+	/*border: 3px solid orange;*/
 }
 
 .card {
