@@ -144,10 +144,37 @@ app.get("/comments", function(req,res) {
     });
 });
 
-
 // GET route to show a specific comment by id.
 // It will populate along with its associated User
 // Shows results as a json object
+app.get("/comments/:id", function(req, res) {
+  db.Comment.findOne({ _id: req.params.id })
+  // show the user associated with this comment
+  .populate("userAssociation")
+  .then(function(dbComment) {
+    // if this findOne query is a success
+    res.json(dbComment);
+  })
+  .catch(function(err) {
+    // if an error occured, show it to the client
+    res.status(404).json("You have errors: ");
+  });
+});
+
+// GET route to show all users as a json object
+app.get("/users", function(req,res) {
+  db.User.find({})
+    .then(function(dbUser) {
+      // if the find query is successful
+      res.json(dbUser);
+    })
+    .catch(function(err) {
+      // if an error occured, show it to the client
+      res.status(404).json("You have errors: ");
+    });
+});
+
+
 
 // POST requests
 
@@ -164,6 +191,12 @@ app.post("/articles/:id", function(req, res) {
       { _id: req.params.id }, 
       { $push: { comment: 
         { $each: [ dbComment._id ], $position: 0 } } }, 
+      { new: true });
+  })
+  .then(function(dbUser) {
+    return db.Comment.findOneAndUpdate(
+      { _id: req.params.id},
+      { $push: { userAssociation: dbUser._id} },
       { new: true });
   })
   .then(function(dbArticle) {

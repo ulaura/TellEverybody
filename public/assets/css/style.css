@@ -1,3 +1,12 @@
+.display-2 {
+	font-weight: 800;
+}
+
+/*The subtitle text in the jumbotron*/
+.lead {
+	font-weight: 800;
+	font-size: 30px;
+}
 .article {
 	border: 3px solid black;
 	height: 500px;
