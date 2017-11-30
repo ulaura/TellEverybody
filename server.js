@@ -28,8 +28,11 @@ app.use(express.static("public"));
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
 // REMEMBER TO DELETE PASSWORD WHENEVER UPDATING SERVER.JS!!!
+
+var MONGODB_URI = "mongodb://heroku_fz028395:9v57lg03s8la5keokv1pigh3in@ds113746.mlab.com:13746/heroku_fz028395"
+
 mongoose.Promise = Promise;
-mongoose.connect("", {
+mongoose.connect(MONGODB_URI, {
   useMongoClient: true
 });
 
